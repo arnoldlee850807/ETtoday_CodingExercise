@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct TrackList: Decodable {
+    var resultCount: Int
+    var results: [Track]
+    init() {
+        self.resultCount = 0
+        self.results = []
+    }
+}

@@ -17,6 +17,14 @@
 		4194CEED2C4E01FE00A20731 /* ETtoday_CodingExerciseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CEEC2C4E01FE00A20731 /* ETtoday_CodingExerciseTests.swift */; };
 		4194CEF72C4E01FE00A20731 /* ETtoday_CodingExerciseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CEF62C4E01FE00A20731 /* ETtoday_CodingExerciseUITests.swift */; };
 		4194CEF92C4E01FE00A20731 /* ETtoday_CodingExerciseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CEF82C4E01FE00A20731 /* ETtoday_CodingExerciseUITestsLaunchTests.swift */; };
+		4194CF0A2C4E0BF900A20731 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF092C4E0BF900A20731 /* NetworkService.swift */; };
+		4194CF0C2C4E0C1A00A20731 /* URLSafeConstruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF0B2C4E0C1A00A20731 /* URLSafeConstruct.swift */; };
+		4194CF0E2C4E12FB00A20731 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF0D2C4E12FB00A20731 /* ImageCache.swift */; };
+		4194CF102C4E137100A20731 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF0F2C4E137100A20731 /* Extensions.swift */; };
+		4194CF122C4E13BE00A20731 /* ObservableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF112C4E13BE00A20731 /* ObservableObject.swift */; };
+		4194CF162C4E29A900A20731 /* TrackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF152C4E29A900A20731 /* TrackList.swift */; };
+		4194CF182C4E2DF300A20731 /* TrackListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF172C4E2DF300A20731 /* TrackListViewModel.swift */; };
+		4194CF1A2C4E30D800A20731 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF192C4E30D800A20731 /* Track.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +59,14 @@
 		4194CEF22C4E01FE00A20731 /* ETtoday_CodingExerciseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ETtoday_CodingExerciseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4194CEF62C4E01FE00A20731 /* ETtoday_CodingExerciseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETtoday_CodingExerciseUITests.swift; sourceTree = "<group>"; };
 		4194CEF82C4E01FE00A20731 /* ETtoday_CodingExerciseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETtoday_CodingExerciseUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4194CF092C4E0BF900A20731 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		4194CF0B2C4E0C1A00A20731 /* URLSafeConstruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSafeConstruct.swift; sourceTree = "<group>"; };
+		4194CF0D2C4E12FB00A20731 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		4194CF0F2C4E137100A20731 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		4194CF112C4E13BE00A20731 /* ObservableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableObject.swift; sourceTree = "<group>"; };
+		4194CF152C4E29A900A20731 /* TrackList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackList.swift; sourceTree = "<group>"; };
+		4194CF172C4E2DF300A20731 /* TrackListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListViewModel.swift; sourceTree = "<group>"; };
+		4194CF192C4E30D800A20731 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +117,12 @@
 		4194CED12C4E01FC00A20731 /* ETtoday_CodingExercise */ = {
 			isa = PBXGroup;
 			children = (
+				4194CF0D2C4E12FB00A20731 /* ImageCache.swift */,
+				4194CF0F2C4E137100A20731 /* Extensions.swift */,
+				4194CF112C4E13BE00A20731 /* ObservableObject.swift */,
+				4194CF062C4E0B6500A20731 /* Networking */,
+				4194CF082C4E0B8200A20731 /* Models */,
+				4194CF072C4E0B7100A20731 /* VIewModels */,
 				4194CED22C4E01FC00A20731 /* AppDelegate.swift */,
 				4194CED42C4E01FC00A20731 /* SceneDelegate.swift */,
 				4194CED62C4E01FC00A20731 /* ViewController.swift */,
@@ -128,6 +150,32 @@
 				4194CEF82C4E01FE00A20731 /* ETtoday_CodingExerciseUITestsLaunchTests.swift */,
 			);
 			path = ETtoday_CodingExerciseUITests;
+			sourceTree = "<group>";
+		};
+		4194CF062C4E0B6500A20731 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				4194CF0B2C4E0C1A00A20731 /* URLSafeConstruct.swift */,
+				4194CF092C4E0BF900A20731 /* NetworkService.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		4194CF072C4E0B7100A20731 /* VIewModels */ = {
+			isa = PBXGroup;
+			children = (
+				4194CF172C4E2DF300A20731 /* TrackListViewModel.swift */,
+			);
+			path = VIewModels;
+			sourceTree = "<group>";
+		};
+		4194CF082C4E0B8200A20731 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4194CF192C4E30D800A20731 /* Track.swift */,
+				4194CF152C4E29A900A20731 /* TrackList.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,10 +312,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4194CF0C2C4E0C1A00A20731 /* URLSafeConstruct.swift in Sources */,
+				4194CF0A2C4E0BF900A20731 /* NetworkService.swift in Sources */,
 				4194CEDD2C4E01FC00A20731 /* ETtoday_CodingExercise.xcdatamodeld in Sources */,
+				4194CF102C4E137100A20731 /* Extensions.swift in Sources */,
+				4194CF182C4E2DF300A20731 /* TrackListViewModel.swift in Sources */,
 				4194CED72C4E01FC00A20731 /* ViewController.swift in Sources */,
 				4194CED32C4E01FC00A20731 /* AppDelegate.swift in Sources */,
+				4194CF162C4E29A900A20731 /* TrackList.swift in Sources */,
+				4194CF0E2C4E12FB00A20731 /* ImageCache.swift in Sources */,
+				4194CF1A2C4E30D800A20731 /* Track.swift in Sources */,
 				4194CED52C4E01FC00A20731 /* SceneDelegate.swift in Sources */,
+				4194CF122C4E13BE00A20731 /* ObservableObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

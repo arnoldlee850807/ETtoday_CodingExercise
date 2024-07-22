@@ -11,7 +11,18 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        let urlSafeConstruct = URLSafeConstruct()
+        guard let getDessertListURL = urlSafeConstruct.constructURL(searchTerm: "jason mars", startFrom: 0, limitTo: 1) else {
+            print("getDessertListURL error")
+            return
+        }
+        let network = NetworkService()
+        network.fetch(fromURL: getDessertListURL) { fetchedResponse in
+            network.decode(fetchedResponse) { decodedFetchedResponse in
+                let d: TrackList = decodedFetchedResponse
+                print(d)
+            }
+        }
     }
 
 
