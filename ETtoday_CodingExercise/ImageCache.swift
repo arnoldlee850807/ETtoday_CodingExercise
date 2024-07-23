@@ -12,21 +12,22 @@ protocol ImageCacheType {
     func getImage(imageURL: URL, completionHandler: ((UIImage) -> Void)?)
     func downloadImage(imageURL: URL, completionHandler: ((UIImage) -> Void)?)
     func loadImageFromCache(imageURL: URL, completionHandler: ((UIImage) -> Void)?)
+    func cancelLoadImage(imageURL: URL)
 }
 
 public class ImageCache: ImageCacheType {
-    let cache = URLCache.shared
+    private let cache = URLCache.shared
+    private var dataTask: URLSessionDataTask? = nil
            
     func getImage(imageURL: URL, completionHandler: ((UIImage) -> Void)?) {
         let request = URLRequest(url: imageURL)
         
-        if (self.cache.cachedResponse(for: request) != nil) {
-            self.loadImageFromCache(imageURL: imageURL) { image in
+        if cache.cachedResponse(for: request) != nil {
+            loadImageFromCache(imageURL: imageURL) { image in
                 completionHandler?(image)
             }
         } else {
-            
-            self.downloadImage(imageURL: imageURL) { image in
+            downloadImage(imageURL: imageURL) { image in
                 completionHandler?(image)
             }
         }
@@ -36,15 +37,14 @@ public class ImageCache: ImageCacheType {
         let request = URLRequest(url: imageURL)
 
         DispatchQueue.global(qos: .utility).async {
-            
-            let dataTask = URLSession.shared.dataTask(with: imageURL) {data, response, _ in
+            self.dataTask = URLSession.shared.dataTask(with: imageURL) {data, response, _ in
                 if let data = data {
                     let cachedData = CachedURLResponse(response: response!, data: data)
                     self.cache.storeCachedResponse(cachedData, for: request)
                     completionHandler?(UIImage(data: data) ?? UIImage())
                 }
             }
-            dataTask.resume()
+            self.dataTask?.resume()
         }
     }
     
@@ -58,15 +58,22 @@ public class ImageCache: ImageCacheType {
             }
         }
     }
+    
+    internal func cancelLoadImage(imageURL: URL) {
+        dataTask?.cancel()
+    }
 }
 
 extension UIImageView {
-    func loadImage(imageURL: URL) {
-        let imageCache = ImageCache()
+    func loadImage(imageCache: ImageCache, imageURL: URL) {
         imageCache.getImage(imageURL: imageURL, completionHandler: { image in
             DispatchQueue.main.async {
                 self.image = image
             }
         })
+    }
+    
+    func cancelLoadImage(imageCache: ImageCache, imageURL: URL) {
+        imageCache.cancelLoadImage(imageURL: imageURL)
     }
 }

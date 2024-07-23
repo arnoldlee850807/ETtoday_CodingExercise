@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4194CED32C4E01FC00A20731 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CED22C4E01FC00A20731 /* AppDelegate.swift */; };
 		4194CED52C4E01FC00A20731 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CED42C4E01FC00A20731 /* SceneDelegate.swift */; };
-		4194CED72C4E01FC00A20731 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CED62C4E01FC00A20731 /* ViewController.swift */; };
 		4194CEDA2C4E01FC00A20731 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 4194CED92C4E01FC00A20731 /* Base */; };
 		4194CEDD2C4E01FC00A20731 /* ETtoday_CodingExercise.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4194CEDB2C4E01FC00A20731 /* ETtoday_CodingExercise.xcdatamodeld */; };
 		4194CEDF2C4E01FD00A20731 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4194CEDE2C4E01FD00A20731 /* Assets.xcassets */; };
@@ -25,6 +24,10 @@
 		4194CF162C4E29A900A20731 /* TrackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF152C4E29A900A20731 /* TrackList.swift */; };
 		4194CF182C4E2DF300A20731 /* TrackListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF172C4E2DF300A20731 /* TrackListViewModel.swift */; };
 		4194CF1A2C4E30D800A20731 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF192C4E30D800A20731 /* Track.swift */; };
+		4194CF1D2C4E684400A20731 /* TrackListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF1C2C4E684400A20731 /* TrackListView.swift */; };
+		4194CF202C4E686500A20731 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4194CF1F2C4E686500A20731 /* SnapKit */; };
+		4194CF222C4EA35E00A20731 /* TrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF212C4EA35E00A20731 /* TrackCollectionViewCell.swift */; };
+		4194CF242C4EA39000A20731 /* Declarative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF232C4EA39000A20731 /* Declarative.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +51,6 @@
 		4194CECF2C4E01FC00A20731 /* ETtoday_CodingExercise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ETtoday_CodingExercise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4194CED22C4E01FC00A20731 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4194CED42C4E01FC00A20731 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		4194CED62C4E01FC00A20731 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4194CED92C4E01FC00A20731 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4194CEDC2C4E01FC00A20731 /* ETtoday_CodingExercise.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ETtoday_CodingExercise.xcdatamodel; sourceTree = "<group>"; };
 		4194CEDE2C4E01FD00A20731 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -67,6 +69,9 @@
 		4194CF152C4E29A900A20731 /* TrackList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackList.swift; sourceTree = "<group>"; };
 		4194CF172C4E2DF300A20731 /* TrackListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListViewModel.swift; sourceTree = "<group>"; };
 		4194CF192C4E30D800A20731 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		4194CF1C2C4E684400A20731 /* TrackListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListView.swift; sourceTree = "<group>"; };
+		4194CF212C4EA35E00A20731 /* TrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCollectionViewCell.swift; sourceTree = "<group>"; };
+		4194CF232C4EA39000A20731 /* Declarative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Declarative.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4194CF202C4E686500A20731 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +107,7 @@
 				4194CEEB2C4E01FE00A20731 /* ETtoday_CodingExerciseTests */,
 				4194CEF52C4E01FE00A20731 /* ETtoday_CodingExerciseUITests */,
 				4194CED02C4E01FC00A20731 /* Products */,
+				4194CF1E2C4E686500A20731 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,13 +126,14 @@
 			children = (
 				4194CF0D2C4E12FB00A20731 /* ImageCache.swift */,
 				4194CF0F2C4E137100A20731 /* Extensions.swift */,
+				4194CF232C4EA39000A20731 /* Declarative.swift */,
 				4194CF112C4E13BE00A20731 /* ObservableObject.swift */,
 				4194CF062C4E0B6500A20731 /* Networking */,
 				4194CF082C4E0B8200A20731 /* Models */,
 				4194CF072C4E0B7100A20731 /* VIewModels */,
+				4194CF1B2C4E681C00A20731 /* Views */,
 				4194CED22C4E01FC00A20731 /* AppDelegate.swift */,
 				4194CED42C4E01FC00A20731 /* SceneDelegate.swift */,
-				4194CED62C4E01FC00A20731 /* ViewController.swift */,
 				4194CED82C4E01FC00A20731 /* Main.storyboard */,
 				4194CEDE2C4E01FD00A20731 /* Assets.xcassets */,
 				4194CEE02C4E01FD00A20731 /* LaunchScreen.storyboard */,
@@ -178,6 +186,22 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		4194CF1B2C4E681C00A20731 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4194CF1C2C4E684400A20731 /* TrackListView.swift */,
+				4194CF212C4EA35E00A20731 /* TrackCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4194CF1E2C4E686500A20731 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -194,6 +218,9 @@
 			dependencies = (
 			);
 			name = ETtoday_CodingExercise;
+			packageProductDependencies = (
+				4194CF1F2C4E686500A20731 /* SnapKit */,
+			);
 			productName = ETtoday_CodingExercise;
 			productReference = 4194CECF2C4E01FC00A20731 /* ETtoday_CodingExercise.app */;
 			productType = "com.apple.product-type.application";
@@ -312,17 +339,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4194CF222C4EA35E00A20731 /* TrackCollectionViewCell.swift in Sources */,
 				4194CF0C2C4E0C1A00A20731 /* URLSafeConstruct.swift in Sources */,
 				4194CF0A2C4E0BF900A20731 /* NetworkService.swift in Sources */,
 				4194CEDD2C4E01FC00A20731 /* ETtoday_CodingExercise.xcdatamodeld in Sources */,
 				4194CF102C4E137100A20731 /* Extensions.swift in Sources */,
+				4194CF242C4EA39000A20731 /* Declarative.swift in Sources */,
 				4194CF182C4E2DF300A20731 /* TrackListViewModel.swift in Sources */,
-				4194CED72C4E01FC00A20731 /* ViewController.swift in Sources */,
 				4194CED32C4E01FC00A20731 /* AppDelegate.swift in Sources */,
 				4194CF162C4E29A900A20731 /* TrackList.swift in Sources */,
 				4194CF0E2C4E12FB00A20731 /* ImageCache.swift in Sources */,
 				4194CF1A2C4E30D800A20731 /* Track.swift in Sources */,
 				4194CED52C4E01FC00A20731 /* SceneDelegate.swift in Sources */,
+				4194CF1D2C4E684400A20731 /* TrackListView.swift in Sources */,
 				4194CF122C4E13BE00A20731 /* ObservableObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -681,6 +710,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4194CF1F2C4E686500A20731 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4194CF052C4E023C00A20731 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		4194CEDB2C4E01FC00A20731 /* ETtoday_CodingExercise.xcdatamodeld */ = {
