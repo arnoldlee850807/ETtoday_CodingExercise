@@ -13,5 +13,5 @@ struct Track: Decodable {
     let trackTimeMillis: Int
     let artworkUrl100: URL
     let longDescription: String?
-    let trackViewUrl: URL
+    let trackViewUrl: URL?
 }

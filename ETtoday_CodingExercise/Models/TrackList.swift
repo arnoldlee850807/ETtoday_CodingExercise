@@ -10,8 +10,8 @@ import Foundation
 struct TrackList: Decodable {
     var resultCount: Int
     var results: [Track]
-    init() {
-        self.resultCount = 0
-        self.results = []
+    init(resultCount: Int = 0, results: [Track] = []) {
+        self.resultCount = resultCount
+        self.results = results
     }
 }

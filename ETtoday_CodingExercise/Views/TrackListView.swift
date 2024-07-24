@@ -11,8 +11,6 @@ import SnapKit
 class TrackListView: UIViewController {
     
     private let viewModel = TrackListViewModel()
-    private let urlSafeConstruct = URLSafeConstruct()
-    private let network = NetworkService()
     
     private lazy var searchBar = UISearchBar {
         $0.delegate = self
@@ -30,6 +28,10 @@ class TrackListView: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.estimatedItemSize = CGSize(width: view.frame.width - 10, height: 200)
+        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 5
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.delegate = self
         view.dataSource = self
@@ -42,20 +44,6 @@ class TrackListView: UIViewController {
         super.viewDidLoad()
         viewSetup()
         bindersSetup()
-        
-        // Testing use
-        let urlSafeConstruct = URLSafeConstruct()
-        guard let trackListURL = urlSafeConstruct.constructURL(searchTerm: "jason mars", startFrom: 0, limitTo: 1) else {
-            print("trackListURL error")
-            return
-        }
-        let network = NetworkService()
-        network.fetch(fromURL: trackListURL) { fetchedResponse in
-            network.decode(fetchedResponse) { decodedFetchedResponse in
-                let d: TrackList = decodedFetchedResponse
-                print(d)
-            }
-        }
     }
 }
 
@@ -87,10 +75,25 @@ extension TrackListView {
     }
     
     private func bindersSetup() {
+        viewModel.trackListData.bind { _ in
+            DispatchQueue.main.async {
+                
+                // Use insert to prevent collectionView flickering when fetching with the same term
+                if self.viewModel.currentFetchMode() == .continueFetch {
+                    var addedIndexPaths = [IndexPath]()
+                    for i in self.collectionView.numberOfItems(inSection: 0)..<self.viewModel.trackListData.value.resultCount {
+                        addedIndexPaths.append(IndexPath(row: i, section: 0))
+                    }
+                    self.collectionView.insertItems(at: addedIndexPaths)
+                } else {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
     }
 }
 
-extension TrackListView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension TrackListView: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -100,38 +103,27 @@ extension TrackListView: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
-    }
-        
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 2.5, bottom: 0, right: 2.5)
-    }
-        
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (view.frame.width - 15) / 2
-        return CGSize(width: width , height: 250)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrackCollectionViewCell", for: indexPath) as? TrackCollectionViewCell ?? TrackCollectionViewCell()
+        cell.cellSetup(track: viewModel.trackListData.value.results[indexPath.row])
+        return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
-    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let collectionCell = collectionView.cellForItem(at: indexPath)
         UIView.animate(withDuration: 0.15) {
-            collectionCell?.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+            collectionCell?.transform = CGAffineTransform(scaleX: 0.97, y: 0.97)
         } completion: { (Bool) in
             UIView.animate(withDuration: 0.15) {
                 collectionCell?.transform = .identity
             }
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         let collectionCell = collectionView.cellForItem(at: indexPath)
         UIView.animate(withDuration: 0.15) {
-            collectionCell?.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+            collectionCell?.transform = CGAffineTransform(scaleX: 0.97, y: 0.97)
         }
     }
     
@@ -144,11 +136,29 @@ extension TrackListView: UICollectionViewDelegate, UICollectionViewDataSource, U
 }
 
 extension TrackListView: UISearchBarDelegate {
+    
+    // Every input change will trigger a fetch
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+        viewModel.fetchTrackData(searchTerm: searchText, limitTo: 25)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
+    }
+}
+
+extension TrackListView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView == collectionView else { return }
+        
+        // Prevent auto fetch when there's no tracks fetched or the tracks fetched can't even fill up the page
+        guard collectionView.contentSize.height > scrollView.frame.height else { return }
+        
+        
+        let collectionViewContentBottomOffset = scrollView.contentOffset.y + scrollView.frame.height
+        // Auto fetch the next patch of the tracks when users scroll over 80% of the track list
+        if collectionViewContentBottomOffset >= collectionView.contentSize.height * 0.8 {
+            viewModel.fetchTrackData(searchTerm: searchBar.text ?? "")
+        }
     }
 }
