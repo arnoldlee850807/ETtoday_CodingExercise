@@ -17,6 +17,13 @@ class TrackCollectionViewCell: UICollectionViewCell {
         $0.zeroFormattingBehavior = .pad
     }
     
+    private var trackType = UILabel {
+        $0.textColor = .black
+        $0.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)
+        $0.text = ""
+        $0.numberOfLines = 1
+    }
+    
     private var trackName = UILabel {
         $0.textColor = .black
         $0.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.semibold)
@@ -49,6 +56,10 @@ class TrackCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        // Cancel current image fetch for cell reuse
+        trackImageView.cancelLoadImage(in: imageCache)
+        // Set current image to empty for cell reuse
         trackImageView.image = nil
     }
     
@@ -68,6 +79,14 @@ extension TrackCollectionViewCell {
             $0.leading.equalToSuperview().offset(10)
             $0.height.width.equalTo(100)
             $0.centerY.equalToSuperview()
+        }
+        
+        contentView.addSubview(trackType)
+        trackType.snp.makeConstraints {
+            $0.leading.equalTo(trackImageView.snp.trailing).offset(12)
+            $0.top.equalTo(trackImageView)
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(20)
         }
         
         contentView.addSubview(trackTime)
@@ -90,8 +109,9 @@ extension TrackCollectionViewCell {
     }
     
     public func cellSetup(track: Track) {
-        trackImageView.loadImage(imageCache: imageCache, imageURL: track.artworkUrl100)
-        trackName.text = track.trackName
-        trackTime.text = formatter.string(from: TimeInterval(track.trackTimeMillis/1000)) ?? ""
+        trackImageView.loadImage(in: imageCache, imageURL: track.artworkUrl100 ?? URL(fileURLWithPath: ""))
+        trackName.text = track.trackName == nil ? track.collectionName:track.trackName
+        trackTime.text = track.trackTimeMillis == nil ? "":formatter.string(from: TimeInterval(track.trackTimeMillis!/1000))!
+        trackType.text = track.kind == nil ? track.wrapperType:track.kind
     }
 }

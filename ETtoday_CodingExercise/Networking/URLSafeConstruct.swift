@@ -16,8 +16,7 @@ class URLSafeConstruct: NSObject {
         let termQueryItem = URLQueryItem(name: "term", value: searchTerm)
         let startFromQueryItem = URLQueryItem(name: "offset", value: "\(startFrom)")
         let limitToQueryItem = URLQueryItem(name: "limit", value: "\(limitTo)")
-        let typeQueryItem = URLQueryItem(name: "entity", value: "musicTrack")
-        urlComponents.queryItems = [termQueryItem, startFromQueryItem, limitToQueryItem, typeQueryItem]
+        urlComponents.queryItems = [termQueryItem, startFromQueryItem, limitToQueryItem]
         return urlComponents.url?.absoluteURL
     }
 }

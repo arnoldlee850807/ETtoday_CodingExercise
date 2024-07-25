@@ -8,10 +8,18 @@
 import Foundation
 
 struct Track: Decodable {
-    let trackId: Int
-    let trackName: String
-    let trackTimeMillis: Int
-    let artworkUrl100: URL
+    // Genral
+    let wrapperType: String?
+    let previewURL: URL?
+    let artworkUrl100: URL?
+    
+    // Music and Movie Tracks
+    let kind: String?
+    let trackName: String?
+    let trackTimeMillis: Int?
     let longDescription: String?
-    let trackViewUrl: URL?
+    
+    // Audiobooks
+    let collectionName: String?
+    let description: String?
 }

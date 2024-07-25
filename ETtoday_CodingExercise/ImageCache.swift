@@ -12,7 +12,7 @@ protocol ImageCacheType {
     func getImage(imageURL: URL, completionHandler: ((UIImage) -> Void)?)
     func downloadImage(imageURL: URL, completionHandler: ((UIImage) -> Void)?)
     func loadImageFromCache(imageURL: URL, completionHandler: ((UIImage) -> Void)?)
-    func cancelLoadImage(imageURL: URL)
+    func cancelLoadImage()
 }
 
 public class ImageCache: ImageCacheType {
@@ -59,13 +59,13 @@ public class ImageCache: ImageCacheType {
         }
     }
     
-    internal func cancelLoadImage(imageURL: URL) {
+    internal func cancelLoadImage() {
         dataTask?.cancel()
     }
 }
 
 extension UIImageView {
-    func loadImage(imageCache: ImageCache, imageURL: URL) {
+    func loadImage(in imageCache: ImageCache, imageURL: URL) {
         imageCache.getImage(imageURL: imageURL, completionHandler: { image in
             DispatchQueue.main.async {
                 self.image = image
@@ -73,7 +73,7 @@ extension UIImageView {
         })
     }
     
-    func cancelLoadImage(imageCache: ImageCache, imageURL: URL) {
-        imageCache.cancelLoadImage(imageURL: imageURL)
+    func cancelLoadImage(in imageCache: ImageCache) {
+        imageCache.cancelLoadImage()
     }
 }

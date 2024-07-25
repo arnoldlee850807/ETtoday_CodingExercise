@@ -36,7 +36,8 @@ class NetworkService {
             completion(returnData)
         }
         catch let parsingError {
-            print("Error", parsingError)
+            print("Parsing error: ", parsingError)
+            print("Error data response: ", String(data: dataResponse, encoding: .utf8) ?? "Empty")
         }
     }
 }
