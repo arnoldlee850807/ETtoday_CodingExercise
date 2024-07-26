@@ -9,10 +9,12 @@ import UIKit
 import SnapKit
 
 class LoadingFooterView: UICollectionReusableView {
+    static let reuseIdentifier = "\(LoadingFooterView.self)"
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .medium)
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.color = .black
         view.startAnimating()
         return view
     }()

@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class TrackCollectionViewCell: UICollectionViewCell {
+    static let reuseIdentifier = "\(TrackCollectionViewCell.self)"
     private let imageCache = ImageCache()
     
     private let formatter = DateComponentsFormatter {
@@ -25,6 +26,7 @@ class TrackCollectionViewCell: UICollectionViewCell {
     }
     
     private var trackName = UILabel {
+        $0.backgroundColor = .red
         $0.textColor = .black
         $0.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.semibold)
         $0.text = ""
@@ -44,6 +46,15 @@ class TrackCollectionViewCell: UICollectionViewCell {
         $0.adjustsFontSizeToFitWidth = true
         $0.minimumScaleFactor = 0.8
     }
+    
+    private var trackDescription = UILabel {
+        $0.backgroundColor = .green
+        $0.textColor = .black
+        $0.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)
+        $0.numberOfLines = 0
+    }
+    
+    private var trackDescriptionHeightConstraint: Constraint? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -72,19 +83,21 @@ class TrackCollectionViewCell: UICollectionViewCell {
 
 extension TrackCollectionViewCell {
     private func viewSetup() {
-        contentView.backgroundColor = .green
+        contentView.backgroundColor = .white
         
         contentView.addSubview(trackImageView)
         trackImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(10)
             $0.height.width.equalTo(100)
             $0.centerY.equalToSuperview()
+            $0.top.greaterThanOrEqualToSuperview().offset(30)
+            $0.bottom.lessThanOrEqualToSuperview().inset(30)
         }
         
         contentView.addSubview(trackType)
         trackType.snp.makeConstraints {
             $0.leading.equalTo(trackImageView.snp.trailing).offset(12)
-            $0.top.equalTo(trackImageView)
+            $0.top.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
@@ -92,20 +105,33 @@ extension TrackCollectionViewCell {
         contentView.addSubview(trackTime)
         trackTime.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)
-            $0.centerY.equalTo(trackImageView)
             $0.height.equalTo(15)
             $0.width.greaterThanOrEqualTo(50)
         }
         
         contentView.addSubview(trackName)
-        trackName.backgroundColor = .red
         trackName.snp.makeConstraints {
-            $0.centerY.equalTo(trackImageView)
+            $0.top.equalTo(trackType.snp.bottom).offset(5)
             $0.leading.equalTo(trackImageView.snp.trailing).offset(20)
             $0.trailing.lessThanOrEqualTo(trackTime.snp.leading).offset(-10)
-            $0.top.equalToSuperview().offset(50)
-            $0.bottom.equalToSuperview().inset(50)
+            $0.centerY.equalTo(trackTime)
         }
+        
+        contentView.addSubview(trackDescription)
+        trackDescription.snp.makeConstraints {
+            $0.top.equalTo(trackName.snp.bottom).offset(10)
+            $0.leading.equalTo(trackImageView.snp.trailing).offset(10)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(10)
+            trackDescriptionHeightConstraint = $0.height.equalTo(0).constraint
+        }
+        
+        // Corner radius and shadow settings
+        layer.shadowOpacity = 0.3
+        layer.shadowOffset = CGSize(width: 0, height: 8)
+        layer.cornerRadius = 3
+        contentView.clipsToBounds = true
+        contentView.layer.cornerRadius = 10
     }
     
     public func cellSetup(track: Track) {
@@ -113,5 +139,8 @@ extension TrackCollectionViewCell {
         trackName.text = track.trackName == nil ? track.collectionName:track.trackName
         trackTime.text = track.trackTimeMillis == nil ? "":formatter.string(from: TimeInterval(track.trackTimeMillis!/1000))!
         trackType.text = track.kind == nil ? track.wrapperType:track.kind
+        track.longDescription == nil && track.description == nil ? trackDescriptionHeightConstraint?.activate():trackDescriptionHeightConstraint?.deactivate()
+        trackDescription.text = track.longDescription == nil ? track.description:track.longDescription
+        layoutIfNeeded()
     }
 }

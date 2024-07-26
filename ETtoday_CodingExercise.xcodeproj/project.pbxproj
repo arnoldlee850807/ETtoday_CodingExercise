@@ -28,7 +28,6 @@
 		4194CF202C4E686500A20731 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4194CF1F2C4E686500A20731 /* SnapKit */; };
 		4194CF222C4EA35E00A20731 /* TrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF212C4EA35E00A20731 /* TrackCollectionViewCell.swift */; };
 		4194CF242C4EA39000A20731 /* Declarative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF232C4EA39000A20731 /* Declarative.swift */; };
-		41DEBD432C513937002F6393 /* LongDescriptionTrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DEBD422C513937002F6393 /* LongDescriptionTrackCollectionViewCell.swift */; };
 		41DEBD452C524970002F6393 /* LoadingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DEBD442C524970002F6393 /* LoadingFooterView.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,7 +73,6 @@
 		4194CF1C2C4E684400A20731 /* TrackListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListView.swift; sourceTree = "<group>"; };
 		4194CF212C4EA35E00A20731 /* TrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCollectionViewCell.swift; sourceTree = "<group>"; };
 		4194CF232C4EA39000A20731 /* Declarative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Declarative.swift; sourceTree = "<group>"; };
-		41DEBD422C513937002F6393 /* LongDescriptionTrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongDescriptionTrackCollectionViewCell.swift; sourceTree = "<group>"; };
 		41DEBD442C524970002F6393 /* LoadingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingFooterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -195,7 +193,6 @@
 			children = (
 				4194CF1C2C4E684400A20731 /* TrackListView.swift */,
 				4194CF212C4EA35E00A20731 /* TrackCollectionViewCell.swift */,
-				41DEBD422C513937002F6393 /* LongDescriptionTrackCollectionViewCell.swift */,
 				41DEBD442C524970002F6393 /* LoadingFooterView.swift */,
 			);
 			path = Views;
@@ -351,7 +348,6 @@
 				4194CEDD2C4E01FC00A20731 /* ETtoday_CodingExercise.xcdatamodeld in Sources */,
 				4194CF102C4E137100A20731 /* Extensions.swift in Sources */,
 				4194CF242C4EA39000A20731 /* Declarative.swift in Sources */,
-				41DEBD432C513937002F6393 /* LongDescriptionTrackCollectionViewCell.swift in Sources */,
 				4194CF182C4E2DF300A20731 /* TrackListViewModel.swift in Sources */,
 				4194CED32C4E01FC00A20731 /* AppDelegate.swift in Sources */,
 				4194CF162C4E29A900A20731 /* TrackList.swift in Sources */,

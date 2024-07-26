@@ -10,7 +10,7 @@ import Foundation
 class NetworkService {
     private var dataTask: URLSessionDataTask? = nil
     
-    func fetch(fromURL: URL, completion: @escaping (Data) -> Void) {
+    public func fetch(fromURL: URL, completion: @escaping (Data) -> Void) {
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.timeoutIntervalForRequest = 10.0
         sessionConfig.timeoutIntervalForResource = 30.0
@@ -26,11 +26,11 @@ class NetworkService {
         dataTask?.resume()
     }
     
-    func cancel() {
+    public func cancel() {
         dataTask?.cancel()
     }
     
-    func decode<T: Decodable>(_ dataResponse: Data, completion: @escaping (T) -> Void) {
+    public func decode<T: Decodable>(_ dataResponse: Data, completion: @escaping (T) -> Void) {
         do{
             let returnData =  try JSONDecoder().decode(T.self, from: dataResponse)
             completion(returnData)

@@ -19,7 +19,7 @@ public class ImageCache: ImageCacheType {
     private let cache = URLCache.shared
     private var dataTask: URLSessionDataTask? = nil
            
-    func getImage(imageURL: URL, completionHandler: ((UIImage) -> Void)?) {
+    public func getImage(imageURL: URL, completionHandler: ((UIImage) -> Void)?) {
         let request = URLRequest(url: imageURL)
         
         if cache.cachedResponse(for: request) != nil {

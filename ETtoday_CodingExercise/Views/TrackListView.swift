@@ -16,6 +16,12 @@ class TrackListView: UIViewController {
     private lazy var searchBar = UISearchBar {
         $0.delegate = self
         $0.placeholder = "Enter Keyword Here"
+        $0.barTintColor = .white
+        $0.searchTextField.backgroundColor = UIColor(white: 0.9, alpha: 1.0)
+        $0.searchTextField.textColor = .black
+        $0.searchTextField.tintColor = .systemBlue
+        $0.searchTextField.leftView?.tintColor = .gray
+        $0.searchTextField.attributedPlaceholder = NSAttributedString(string: $0.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
     }
     
     private lazy var noTrackUIlabel = UILabel {
@@ -30,16 +36,29 @@ class TrackListView: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.estimatedItemSize = CGSize(width: view.frame.width - 10, height: 200)
-        layout.minimumLineSpacing = 5
+        layout.minimumLineSpacing = 20
         layout.minimumInteritemSpacing = 5
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        layout.sectionInset = UIEdgeInsets(top: 2, left: 5, bottom: 0, right: 5)
         layout.footerReferenceSize = CGSize(width: view.frame.width, height: 50)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.delegate = self
         view.dataSource = self
         view.backgroundColor = .clear
-        view.register(TrackCollectionViewCell.self, forCellWithReuseIdentifier: "TrackCollectionViewCell")
-        view.register(LoadingFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadingFooterView")
+        view.register(TrackCollectionViewCell.self, forCellWithReuseIdentifier: TrackCollectionViewCell.reuseIdentifier)
+        view.register(LoadingFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: LoadingFooterView.reuseIdentifier)
+        return view
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .medium)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.startAnimating()
+        view.isHidden = true
+        view.backgroundColor = .lightGray
+        view.layer.cornerRadius = 7
+        view.color = .white
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
         return view
     }()
 
@@ -75,14 +94,17 @@ extension TrackListView {
             $0.top.equalTo(searchBar.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+            $0.width.height.equalTo(70)
+        }
     }
     
     private func bindersSetup() {
         viewModel.trackListData.bind { _ in
             DispatchQueue.main.async {
-                
-                
-                
                 // Use insert to prevent collectionView flickering when fetching with the same term
                 if self.viewModel.currentFetchMode() == .continueFetch {
                     
@@ -108,6 +130,14 @@ extension TrackListView {
                 }
             }
         }
+        
+        viewModel.isFetching.bind { value in
+            DispatchQueue.main.async {
+                if self.collectionView.numberOfItems(inSection: 0) == 0 {
+                    self.activityIndicator.isHidden = !value
+                }
+            }
+        }
     }
 }
 
@@ -121,14 +151,14 @@ extension TrackListView: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrackCollectionViewCell", for: indexPath) as? TrackCollectionViewCell ?? TrackCollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackCollectionViewCell ?? TrackCollectionViewCell()
         cell.cellSetup(track: viewModel.trackListData.value.results[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionFooter {
-            footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "LoadingFooterView", for: indexPath) as! LoadingFooterView
+            footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: LoadingFooterView.reuseIdentifier, for: indexPath) as! LoadingFooterView
             return footerView
         }
         return UICollectionReusableView()
