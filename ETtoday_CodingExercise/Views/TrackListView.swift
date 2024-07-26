@@ -24,7 +24,7 @@ class TrackListView: UIViewController {
         $0.searchTextField.attributedPlaceholder = NSAttributedString(string: $0.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
     }
     
-    private lazy var noTrackUIlabel = UILabel {
+    private lazy var noTrackUILabel = UILabel {
         $0.textColor = .black
         $0.font = UIFont.systemFont(ofSize: 35, weight: UIFont.Weight.semibold)
         $0.text = "Type something in the search bar to find tracks"
@@ -43,9 +43,10 @@ class TrackListView: UIViewController {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.delegate = self
         view.dataSource = self
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor(white: 0.93, alpha: 1.0)
         view.register(TrackCollectionViewCell.self, forCellWithReuseIdentifier: TrackCollectionViewCell.reuseIdentifier)
         view.register(LoadingFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: LoadingFooterView.reuseIdentifier)
+        view.keyboardDismissMode = .onDrag
         return view
     }()
     
@@ -72,7 +73,9 @@ class TrackListView: UIViewController {
 extension TrackListView {
     private func viewSetup() {
         title = "Search iTunes"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         view.backgroundColor = .white
+        tapToHideKeyboard()
         
         view.addSubview(searchBar)
         searchBar.snp.makeConstraints {
@@ -82,17 +85,18 @@ extension TrackListView {
             $0.height.equalTo(50)
         }
         
-        view.addSubview(noTrackUIlabel)
-        noTrackUIlabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().inset(10)
-            $0.centerX.centerY.equalToSuperview()
-        }
-        
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        collectionView.addSubview(noTrackUILabel)
+        noTrackUILabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(view)
         }
         
         view.addSubview(activityIndicator)
@@ -125,6 +129,7 @@ extension TrackListView {
                     
                     // Track list count is 0 stop activity indicator, track list count > 0 start activity Indicator
                     self.viewModel.trackListData.value.resultCount == 0 ? self.footerView.stopAnimating():self.footerView.startAnimating()
+                    self.noTrackUILabel.isHidden = self.viewModel.trackListData.value.resultCount != 0
                     
                     self.collectionView.reloadData()
                 }
