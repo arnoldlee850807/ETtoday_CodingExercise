@@ -8,6 +8,27 @@ https://itunes.apple.com/search
 
 Structure: MVVM
 
+## Connection monitor
+
+### Import Network Framework
+
+    import Network
+
+### Initialize NWPathMonitor
+
+    private let pathMonitor = NWPathMonitor()
+
+### Read path from pathMonitor
+
+    pathMonitor.pathUpdateHandler
+
+**.satisfied**: The network path is available, and the network connection is established
+
+**.unsatisfied**: The network path is not available, and the network connection cannot be established
+
+**.requiresConnection**: The network path requires additional steps to establish the connection
+
+
 ## CollectionView with auto resizing cells
 
 This is done by 2 steps
@@ -23,6 +44,12 @@ This is done by 2 steps
         layoutAttributes.frame.size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
         return layoutAttributes
     }
+
+## TrackCollectionViewCell
+
+Only one collectionViewCell file is created in this project
+
+By activating and deactivating **trackDescriptionHeightConstraint** to support tracks with long description and tracks without description
 
 ## ObservableObject
 
@@ -108,6 +135,7 @@ An enum class called PlayerStatus is used in this AudioManager to showcase the c
         case paused
         case playing
         case buffering
+        case initial
     }
 
 ### Set four observers
