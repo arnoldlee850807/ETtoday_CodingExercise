@@ -133,7 +133,8 @@ extension TrackListView {
                     // Track list count is 0 stop activity indicator, track list count > 0 start activity Indicator
                     self.viewModel.trackListData.value.resultCount == 0 ? self.footerView.stopAnimating():self.footerView.startAnimating()
                     self.noTrackUILabel.isHidden = self.viewModel.trackListData.value.resultCount != 0
-                    
+                    // Reset trackPlayingIndexPath to avoid previous indexPath showing AudioManager.playerStatus
+                    self.trackPlayingIndexPath = nil
                     self.collectionView.reloadData()
                 }
             }
@@ -154,6 +155,18 @@ extension TrackListView {
             DispatchQueue.main.async {
                 let collectionCell = self.collectionView.cellForItem(at: trackPlayingIndexPath) as? TrackCollectionViewCell
                 collectionCell?.trackPlayerStatusChange(status: status)
+            }
+        }
+        
+        audioManager.videoControllerPresented.bind { presented in
+            if presented == false {
+                if self.presentedViewController == self.audioManager.getVideoController() {
+                    self.audioManager.getVideoController().dismiss(animated: true)
+                }
+            } else {
+                if self.presentedViewController != self.audioManager.getVideoController() {
+                    self.present(self.audioManager.getVideoController(), animated: true)
+                }
             }
         }
     }

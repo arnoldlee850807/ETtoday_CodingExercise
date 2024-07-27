@@ -26,7 +26,6 @@ class TrackCollectionViewCell: UICollectionViewCell {
     }
     
     private var trackName = UILabel {
-        $0.backgroundColor = .red
         $0.textColor = .black
         $0.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.semibold)
         $0.text = ""
@@ -48,7 +47,6 @@ class TrackCollectionViewCell: UICollectionViewCell {
     }
     
     private var trackDescription = UILabel {
-        $0.backgroundColor = .green
         $0.textColor = .black
         $0.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)
         $0.numberOfLines = 0
@@ -62,6 +60,14 @@ class TrackCollectionViewCell: UICollectionViewCell {
         $0.text = ""
         $0.numberOfLines = 1
     }
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .medium)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.color = .black
+        view.startAnimating()
+        return view
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -94,13 +100,18 @@ extension TrackCollectionViewCell {
     private func viewSetup() {
         contentView.backgroundColor = .white
         
-        contentView.addSubview(trackImageView)
-        trackImageView.snp.makeConstraints {
+        contentView.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(10)
             $0.height.width.equalTo(100)
             $0.centerY.equalToSuperview()
             $0.top.greaterThanOrEqualToSuperview().offset(30)
             $0.bottom.lessThanOrEqualToSuperview().inset(30)
+        }
+        
+        contentView.addSubview(trackImageView)
+        trackImageView.snp.makeConstraints {
+            $0.edges.equalTo(activityIndicator)
         }
         
         contentView.addSubview(trackPlayerIndicator)

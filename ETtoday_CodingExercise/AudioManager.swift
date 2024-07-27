@@ -6,6 +6,7 @@
 //
 
 import Combine
+import AVKit
 import AVFoundation
 
 enum PlayerStatus {
@@ -17,38 +18,35 @@ enum PlayerStatus {
 
 class AudioManager {
     static let shared = AudioManager()
-    var player = AVPlayer()
+    private let player = AVPlayer()
     private var session = AVAudioSession.sharedInstance()
 
+    // Observers
     private var playToEndCancellable: AnyCancellable?
     private var bufferingCancellable: AnyCancellable?
-    
-    
-    private var isPlaybackBufferEmptyObserver: NSKeyValueObservation?
-    private var isPlaybackBufferFullObserver: NSKeyValueObservation?
-    private var isPlaybackLikelyToKeepUpObserver: NSKeyValueObservation?
-    
+    private var onIsPlaybackLikelyToKeepUpObserver: NSKeyValueObservation?
+    private var onRateObserver: NSKeyValueObservation?
     
     private var audioURL: URL?
     var playerStatus = ObservableObject(PlayerStatus.paused)
+    var videoControllerPresented = ObservableObject(false)
+    private var videoController = AVPlayerViewController()
     
     public func playAndPauseAudio(with url: URL) {
         activateSession()
         
         let playerItem = AVPlayerItem(url: url)
+        videoController.player = player
         
         if audioURL == url {
             switch playerStatus.value {
             case .paused:
                 player.play()
-                playerStatus.value = .playing
             case .playing:
                 player.pause()
-                playerStatus.value = .paused
             case .finished:
                 player.seek(to: .zero)
                 player.play()
-                playerStatus.value = .playing
             case .buffering:
                 return
             }
@@ -62,52 +60,47 @@ class AudioManager {
         // Track ended notification
         playToEndCancellable = NotificationCenter.default.publisher(for: AVPlayerItem.didPlayToEndTimeNotification).sink { _ in
             self.playerStatus.value = .finished
+            self.videoControllerPresented.value = false
             self.deactivateSession()
         }
-        
         // Track stopped playing need more buffering notification
         bufferingCancellable = NotificationCenter.default.publisher(for: AVPlayerItem.playbackStalledNotification).sink { _ in
             self.playerStatus.value = .buffering
         }
-        
-        // Start buffering observer
-        isPlaybackBufferEmptyObserver = playerItem.observe(\.isPlaybackBufferEmpty, changeHandler: onIsPlaybackBufferEmptyObserverChanged)
-        // Finshed buffering observer
-        isPlaybackBufferFullObserver = playerItem.observe(\.isPlaybackBufferFull, changeHandler: onIsPlaybackBufferFullObserverChanged)
-        // Track ready to play observer
-        isPlaybackLikelyToKeepUpObserver = playerItem.observe(\.isPlaybackLikelyToKeepUp, changeHandler: onIsPlaybackLikelyToKeepUpObserverChanged)
+        onIsPlaybackLikelyToKeepUpObserver = playerItem.observe(\.isPlaybackLikelyToKeepUp, changeHandler: onIsPlaybackLikelyToKeepUpObserverChanged)
+        // Track playing rate observer
+        onRateObserver = player.observe(\.rate, changeHandler: onRateObserverChanged)
         
         playerStatus.value = .buffering
-        player.play()
     }
     
-    private func onIsPlaybackBufferEmptyObserverChanged(playerItem: AVPlayerItem, change: NSKeyValueObservedChange<Bool>) {
-        if playerItem.isPlaybackBufferEmpty {
-            playerStatus.value = .buffering
-        }
-    }
-
-    private func onIsPlaybackBufferFullObserverChanged(playerItem: AVPlayerItem, change: NSKeyValueObservedChange<Bool>) {
-        if playerItem.isPlaybackBufferFull {
-            playerStatus.value = .playing
-        }
-    }
-
+    // Determine when buffering ends and ready to play
     private func onIsPlaybackLikelyToKeepUpObserverChanged(playerItem: AVPlayerItem, change: NSKeyValueObservedChange<Bool>) {
         if playerItem.isPlaybackLikelyToKeepUp {
-            playerStatus.value = .playing
+            player.play()
         }
     }
     
-    // Not using
-    private func getPlayerStatus() -> PlayerStatus {
-        if player.timeControlStatus == .playing {
-            return .playing
-        } else if player.timeControlStatus == .paused {
-            return player.currentTime() == player.currentItem?.duration ? .finished:.paused
+    // Determine states using rate change
+    private func onRateObserverChanged(player: AVPlayer, change: NSKeyValueObservedChange<Float>) {
+        if player.rate == 1.0 {
+            player.currentItem?.asset.loadTracks(withMediaType: .video, completionHandler: { tracks, error in
+                if tracks?.isEmpty == false {
+                    self.videoControllerPresented.value = true
+                }
+            })
+            playerStatus.value = .playing
         } else {
-            return .finished
+            if player.currentItem?.currentTime() == player.currentItem?.duration {
+                playerStatus.value = .finished
+            } else {
+                playerStatus.value = .paused
+            }
         }
+    }
+    
+    public func getVideoController() -> AVPlayerViewController {
+        return videoController
     }
     
     private func activateSession() {
