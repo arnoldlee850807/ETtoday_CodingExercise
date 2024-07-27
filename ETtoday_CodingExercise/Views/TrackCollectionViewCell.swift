@@ -56,6 +56,13 @@ class TrackCollectionViewCell: UICollectionViewCell {
     
     private var trackDescriptionHeightConstraint: Constraint? = nil
     
+    private var trackPlayerIndicator = UILabel {
+        $0.textColor = .black
+        $0.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.bold)
+        $0.text = ""
+        $0.numberOfLines = 1
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         viewSetup()
@@ -72,6 +79,8 @@ class TrackCollectionViewCell: UICollectionViewCell {
         trackImageView.cancelLoadImage(in: imageCache)
         // Set current image to empty for cell reuse
         trackImageView.image = nil
+        // Set current track status to initial for cell reuse
+        trackPlayerIndicator.text = ""
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -92,6 +101,13 @@ extension TrackCollectionViewCell {
             $0.centerY.equalToSuperview()
             $0.top.greaterThanOrEqualToSuperview().offset(30)
             $0.bottom.lessThanOrEqualToSuperview().inset(30)
+        }
+        
+        contentView.addSubview(trackPlayerIndicator)
+        trackPlayerIndicator.snp.makeConstraints {
+            $0.centerX.equalTo(trackImageView)
+            $0.top.equalTo(trackImageView.snp.bottom).offset(2)
+            $0.height.equalTo(15)
         }
         
         contentView.addSubview(trackType)
@@ -142,5 +158,18 @@ extension TrackCollectionViewCell {
         track.longDescription == nil && track.description == nil ? trackDescriptionHeightConstraint?.activate():trackDescriptionHeightConstraint?.deactivate()
         trackDescription.text = track.longDescription == nil ? track.description:track.longDescription
         layoutIfNeeded()
+    }
+    
+    public func trackPlayerStatusChange(status: PlayerStatus) {
+        switch status {
+        case .finished:
+            trackPlayerIndicator.text = ""
+        case .paused:
+            trackPlayerIndicator.text = "Paused"
+        case .playing:
+            trackPlayerIndicator.text = "Playing"
+        case .buffering:
+            trackPlayerIndicator.text = "Buffering"
+        }
     }
 }

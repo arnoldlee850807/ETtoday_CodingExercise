@@ -10,7 +10,7 @@ import Foundation
 struct Track: Decodable {
     // Genral
     let wrapperType: String?
-    let previewURL: URL?
+    let previewUrl: URL?
     let artworkUrl100: URL?
     
     // Music and Movie Tracks

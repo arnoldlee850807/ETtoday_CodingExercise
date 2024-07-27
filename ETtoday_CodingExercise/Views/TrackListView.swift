@@ -12,6 +12,8 @@ class TrackListView: UIViewController {
     
     private let viewModel = TrackListViewModel()
     private var footerView = LoadingFooterView()
+    private let audioManager = AudioManager.shared
+    private var trackPlayingIndexPath: IndexPath?
     
     private lazy var searchBar = UISearchBar {
         $0.delegate = self
@@ -66,7 +68,8 @@ class TrackListView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewSetup()
-        bindersSetup()
+        viewModelBindersSetup()
+        audioManagerBindersSetup()
     }
 }
 
@@ -106,7 +109,7 @@ extension TrackListView {
         }
     }
     
-    private func bindersSetup() {
+    private func viewModelBindersSetup() {
         viewModel.trackListData.bind { _ in
             DispatchQueue.main.async {
                 // Use insert to prevent collectionView flickering when fetching with the same term
@@ -144,6 +147,16 @@ extension TrackListView {
             }
         }
     }
+    
+    private func audioManagerBindersSetup() {
+        audioManager.playerStatus.bind { status in
+            guard let trackPlayingIndexPath = self.trackPlayingIndexPath else { return }
+            DispatchQueue.main.async {
+                let collectionCell = self.collectionView.cellForItem(at: trackPlayingIndexPath) as? TrackCollectionViewCell
+                collectionCell?.trackPlayerStatusChange(status: status)
+            }
+        }
+    }
 }
 
 extension TrackListView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -158,6 +171,9 @@ extension TrackListView: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackCollectionViewCell ?? TrackCollectionViewCell()
         cell.cellSetup(track: viewModel.trackListData.value.results[indexPath.row])
+        if let trackPlayingIndexPath = trackPlayingIndexPath, trackPlayingIndexPath == indexPath {
+            cell.trackPlayerStatusChange(status: audioManager.playerStatus.value)
+        }
         return cell
     }
     
@@ -181,6 +197,14 @@ extension TrackListView: UICollectionViewDelegate, UICollectionViewDataSource, U
             UIView.animate(withDuration: 0.15) {
                 collectionCell?.transform = .identity
             }
+        }
+        if let previousIndexPath = trackPlayingIndexPath {
+            let preCollectionCell = collectionView.cellForItem(at: previousIndexPath) as? TrackCollectionViewCell
+            preCollectionCell?.trackPlayerStatusChange(status: .finished)
+        }
+        trackPlayingIndexPath = indexPath
+        if let previewURL = viewModel.trackListData.value.results[indexPath.row].previewUrl {
+            audioManager.playAndPauseAudio(with: previewURL)
         }
     }
     

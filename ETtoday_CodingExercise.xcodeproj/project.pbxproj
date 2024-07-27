@@ -29,6 +29,7 @@
 		4194CF222C4EA35E00A20731 /* TrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF212C4EA35E00A20731 /* TrackCollectionViewCell.swift */; };
 		4194CF242C4EA39000A20731 /* Declarative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194CF232C4EA39000A20731 /* Declarative.swift */; };
 		41DEBD452C524970002F6393 /* LoadingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DEBD442C524970002F6393 /* LoadingFooterView.swift */; };
+		41DEBD472C53F477002F6393 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DEBD462C53F477002F6393 /* AudioManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		4194CF212C4EA35E00A20731 /* TrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCollectionViewCell.swift; sourceTree = "<group>"; };
 		4194CF232C4EA39000A20731 /* Declarative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Declarative.swift; sourceTree = "<group>"; };
 		41DEBD442C524970002F6393 /* LoadingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingFooterView.swift; sourceTree = "<group>"; };
+		41DEBD462C53F477002F6393 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				4194CF0D2C4E12FB00A20731 /* ImageCache.swift */,
+				41DEBD462C53F477002F6393 /* AudioManager.swift */,
 				4194CF0F2C4E137100A20731 /* Extensions.swift */,
 				4194CF232C4EA39000A20731 /* Declarative.swift */,
 				4194CF112C4E13BE00A20731 /* ObservableObject.swift */,
@@ -352,6 +355,7 @@
 				4194CED32C4E01FC00A20731 /* AppDelegate.swift in Sources */,
 				4194CF162C4E29A900A20731 /* TrackList.swift in Sources */,
 				41DEBD452C524970002F6393 /* LoadingFooterView.swift in Sources */,
+				41DEBD472C53F477002F6393 /* AudioManager.swift in Sources */,
 				4194CF0E2C4E12FB00A20731 /* ImageCache.swift in Sources */,
 				4194CF1A2C4E30D800A20731 /* Track.swift in Sources */,
 				4194CED52C4E01FC00A20731 /* SceneDelegate.swift in Sources */,
