@@ -173,7 +173,7 @@ extension TrackCollectionViewCell {
     
     public func trackPlayerStatusChange(status: PlayerStatus) {
         switch status {
-        case .finished:
+        case .finished, .initial:
             trackPlayerIndicator.text = ""
         case .paused:
             trackPlayerIndicator.text = "Paused"

@@ -14,6 +14,7 @@ enum PlayerStatus {
     case paused
     case playing
     case buffering
+    case initial
 }
 
 class AudioManager {
@@ -28,7 +29,7 @@ class AudioManager {
     private var onRateObserver: NSKeyValueObservation?
     
     private var audioURL: URL?
-    var playerStatus = ObservableObject(PlayerStatus.paused)
+    var playerStatus = ObservableObject(PlayerStatus.initial)
     var videoControllerPresented = ObservableObject(false)
     private var videoController = AVPlayerViewController()
     
@@ -40,7 +41,7 @@ class AudioManager {
         
         if audioURL == url {
             switch playerStatus.value {
-            case .paused:
+            case .paused, .initial:
                 player.play()
             case .playing:
                 player.pause()
@@ -53,6 +54,7 @@ class AudioManager {
             return
         } else {
             player.replaceCurrentItem(with: playerItem)
+            playerStatus.value = .initial
         }
         
         audioURL = url
@@ -76,7 +78,7 @@ class AudioManager {
     
     // Determine when buffering ends and ready to play
     private func onIsPlaybackLikelyToKeepUpObserverChanged(playerItem: AVPlayerItem, change: NSKeyValueObservedChange<Bool>) {
-        if playerItem.isPlaybackLikelyToKeepUp {
+        if playerItem.isPlaybackLikelyToKeepUp && playerStatus.value != .finished {
             player.play()
         }
     }
