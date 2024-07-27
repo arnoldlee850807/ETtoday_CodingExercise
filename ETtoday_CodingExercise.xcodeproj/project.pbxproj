@@ -130,9 +130,7 @@
 			children = (
 				4194CF0D2C4E12FB00A20731 /* ImageCache.swift */,
 				41DEBD462C53F477002F6393 /* AudioManager.swift */,
-				4194CF0F2C4E137100A20731 /* Extensions.swift */,
-				4194CF232C4EA39000A20731 /* Declarative.swift */,
-				4194CF112C4E13BE00A20731 /* ObservableObject.swift */,
+				41F70EB32C5594580060D8BE /* Helpers */,
 				4194CF062C4E0B6500A20731 /* Networking */,
 				4194CF082C4E0B8200A20731 /* Models */,
 				4194CF072C4E0B7100A20731 /* VIewModels */,
@@ -206,6 +204,16 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		41F70EB32C5594580060D8BE /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4194CF0F2C4E137100A20731 /* Extensions.swift */,
+				4194CF232C4EA39000A20731 /* Declarative.swift */,
+				4194CF112C4E13BE00A20731 /* ObservableObject.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

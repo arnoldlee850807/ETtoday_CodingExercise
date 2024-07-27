@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Network
 
 class TrackListView: UIViewController {
     
@@ -14,6 +15,8 @@ class TrackListView: UIViewController {
     private var footerView = LoadingFooterView()
     private let audioManager = AudioManager.shared
     private var trackPlayingIndexPath: IndexPath?
+    
+    private let pathMonitor = NWPathMonitor()
     
     private lazy var searchBar = UISearchBar {
         $0.delegate = self
@@ -68,8 +71,14 @@ class TrackListView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewSetup()
+        observerSetup()
         viewModelBindersSetup()
         audioManagerBindersSetup()
+        networkMonitorSetup()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -107,6 +116,18 @@ extension TrackListView {
             $0.centerX.centerY.equalToSuperview()
             $0.width.height.equalTo(70)
         }
+    }
+    
+    private func observerSetup() {
+        NotificationCenter.default.addObserver(self, selector: #selector(presentAlert), name: NSNotification.Name("DataCorrupted"), object: nil)
+    }
+    
+    @objc func presentAlert() {
+        let alert = UIAlertController(title: "Error", message: "Your request produced an error", preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+        alert.addAction(dismiss)
+        activityIndicator.isHidden = true
+        present(alert, animated: true, completion: nil)
     }
     
     private func viewModelBindersSetup() {
@@ -169,6 +190,21 @@ extension TrackListView {
                 }
             }
         }
+    }
+    
+    private func networkMonitorSetup() {
+        pathMonitor.pathUpdateHandler = { path in
+            if path.status != .satisfied {
+                let alert = UIAlertController(title: "Error", message: "No connection available", preferredStyle: .alert)
+                let dismiss = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                alert.addAction(dismiss)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        pathMonitor.start(queue: queue)
     }
 }
 

@@ -36,6 +36,9 @@ class NetworkService {
             completion(returnData)
         }
         catch let parsingError {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: NSNotification.Name("DataCorrupted"), object: nil)
+            }
             print("Parsing error: ", parsingError)
             print("Error data response: ", String(data: dataResponse, encoding: .utf8) ?? "Empty")
         }
