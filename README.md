@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project is for ETtoday's coding exercise. Calling only one endpoint.
+This project is for ETtoday's coding exercise. Calling only one endpoint. There's also comments in the code.
 
 https://itunes.apple.com/search
 
@@ -31,7 +31,7 @@ Structure: MVVM
 
 ## CollectionView with auto resizing cells
 
-This is done by 2 steps
+This is done by 2 steps.
 
 ### Set estimated item size in UICollectionView
 
@@ -47,9 +47,9 @@ This is done by 2 steps
 
 ## TrackCollectionViewCell
 
-Only one collectionViewCell file is created in this project
+Only one collectionViewCell file is created in this project.
 
-By activating and deactivating **trackDescriptionHeightConstraint** to support tracks with long description and tracks without description
+By activating and deactivating **trackDescriptionHeightConstraint** to support tracks with long description and tracks without description.
 
 ## ObservableObject
 
@@ -85,7 +85,7 @@ In order to safely construct the URL and to reduce human errors, the urlComponen
 
 ## ImageCache
 
-This exercise utilize the URLCache to achieve caching data
+This exercise utilize the URLCache to achieve caching data.
 
 By checking if the image data has already been loaded to the cache, if the image existed we load the image directly from the cahce, if not we download it and cache it.
 
@@ -103,7 +103,7 @@ By checking if the image data has already been loaded to the cache, if the image
         }
     }
     
- An extension is also created for UIImageView
+ An extension is also created for UIImageView.
  
      extension UIImageView {
         func loadImage(cache: ImageCache, imageURL: URL) {
@@ -125,10 +125,10 @@ By checking if the image data has already been loaded to the cache, if the image
 
 ## AudioManager
 
-This part utilize AVKit and AVFoundation to achieve playing audio and video
+This part utilize AVKit and AVFoundation to achieve playing audio and video.
 
 ### AVPlayer status
-An enum class called PlayerStatus is used in this AudioManager to showcase the current state of the AVPlayer
+An enum class called PlayerStatus is used in this AudioManager to showcase the current state of the AVPlayer.
 
     enum PlayerStatus {
         case finished
@@ -148,11 +148,11 @@ An enum class called PlayerStatus is used in this AudioManager to showcase the c
 **onRateObserver**: Determine states using rate changes
 
 ### Play and Pause Track
-With the help of four observers, the function below will determine either to play or pause the AVPlayer according to the AVPlayer status 
+With the help of four observers, the function below will determine either to play or pause the AVPlayer according to the AVPlayer status.
 
     public func playAndPauseAudio(with url: URL)
 
-Usecase in collectionViewCell didSelectItemAt:
+Usecase in collectionViewCell didSelectItemAt.
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let previewURL = viewModel.trackListData.value.results[indexPath.row].previewUrl {
@@ -167,4 +167,4 @@ Usecase in collectionViewCell didSelectItemAt:
  
  https://github.com/SnapKit/SnapKitOne 
  
- SnapKit is used in this project to helped setting the constraints
+ SnapKit is used in this project to helped setting the constraints.
