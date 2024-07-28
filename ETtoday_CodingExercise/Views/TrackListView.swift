@@ -276,6 +276,7 @@ extension TrackListView: UISearchBarDelegate {
     
     // Every input change will trigger a fetch
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        audioManager.pauseAudio()
         viewModel.fetchTrackData(searchTerm: searchText)
     }
     

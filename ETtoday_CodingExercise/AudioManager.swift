@@ -17,7 +17,7 @@ enum PlayerStatus {
     case initial
 }
 
-class AudioManager {
+public class AudioManager {
     static let shared = AudioManager()
     private let player = AVPlayer()
     private var session = AVAudioSession.sharedInstance()
@@ -74,6 +74,11 @@ class AudioManager {
         onRateObserver = player.observe(\.rate, changeHandler: onRateObserverChanged)
         
         playerStatus.value = .buffering
+    }
+    
+    // Only use this when need AVPlayer to stop playing
+    public func pauseAudio() {
+        player.pause()
     }
     
     // Determine when buffering ends and ready to play
