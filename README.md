@@ -8,6 +8,18 @@ https://itunes.apple.com/search
 
 Structure: MVVM
 
+## Data fetching (25 tracks per request)
+
+Data fetching is done by calling the iTunes endpoint. At most 25 tracks will be returned per request(batch). 
+
+The initial request is triggered by the searchBar. 
+Futher requests are triggered by user scrolling. 
+When user scrolls to nearly the end of the view, the system will automatically trigger a request then load in the next 25 tracks and so on. 
+This process will continue until there's no more tracks to request from the endpoint.
+
+The intial tracks load in will be using reload.
+However to avoid the collectionView flickering to enhance user experience, latter tracks load in process is done by using insertion rather than reload.
+
 ## Connection monitor
 
 ### Import Network Framework
@@ -46,6 +58,8 @@ This is done by 2 steps.
     }
 
 ## TrackCollectionViewCell
+
+**Support audiobook, music, music video, movie, podcast, tv-episode, short film**
 
 Only one collectionViewCell file is created in this project.
 
