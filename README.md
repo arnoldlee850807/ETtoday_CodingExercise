@@ -8,6 +8,26 @@ https://itunes.apple.com/search
 
 Structure: MVVM
 
+### To start 
+
+Type in the term to search for related tracks in iTunes.
+
+### Play audio(musics, audiobooks, podcast), Play video(movies, tv-episodes, short film)
+
+Tap on any cell that's visible on the screen.
+
+### Pause
+
+For audio just tap the cell that is selected to play at first again.
+
+For video tap the pause button on screen or dismiss the player, it will set as paused in background.
+
+**If different cell is selected, current playing will be cut off and start playing the track according to the cell that's been selected.**
+
+### Restart
+
+When audio or video reach the end and stop playing, the status of the track will be set to restart, tap it again to start from the begining.
+
 ## Data fetching (25 tracks per request)
 
 Data fetching is done by calling the iTunes endpoint. At most 25 tracks will be returned per request(batch). 
